@@ -9,6 +9,8 @@
     "firebase": "^7.20.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-image-file-resizer": "^0.3.8",
+    "react-pdf": "^5.0.0",
     "react-scripts": "3.4.3"
   },
   "scripts": {
@@ -32,5 +34,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "prettier": "2.1.2"
   }
 }
