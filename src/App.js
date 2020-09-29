@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Form, Grid, Header, Message, Segment, Transition } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Message, Popup, Segment, Transition } from 'semantic-ui-react'
 import formReducer,{EMAIL,NAME,NUMBER_IN_PARTY,MOBILE,ON_SUCCESS} from './appReducer'
 import useFirebase from './useFirebase'
 const now = new Date()
@@ -59,7 +59,7 @@ const LoginForm = () => {
 
         <Grid.Column style={{ maxWidth: 450 }}>
         
-        <Message  success={formSucces} ><Message.Header>Covid track and trace</Message.Header>We'll only use data from this form for Covid track and trace purposes. If you'd like to <a href='#'>download the app</a> - you can checkin with one click next time and keep up with hagglers' goings on. </Message>
+   <Message  success={formSucces} ><Message.Header>Covid track and trace</Message.Header>We'll only use data from this form for Covid track and trace purposes. If you'd like to <Popup size="large" inverted content="Hey, so the thing is... we're still working on the app. And it's not quite ready yet. We'll let people know, as soon as its fully baked" trigger={<a href='#'>download the app</a>}/> - you can checkin with one click next time and keep up with hagglers' goings on. </Message>
  
           <Header as='h2' color='teal' textAlign='center'>
             Track and trace
@@ -85,13 +85,7 @@ const LoginForm = () => {
           </Transition>
 
           {formError && <Message error>Looks like just need some info - see errors</Message>}
-                {formSucces && <Message success>Thanks for doing your bit! Order yourself a drink - happy days...</Message>}
-
-          <Message>
-          {/* // eslint-disable-next-line to the line before. */}
-            <a href='#'>Download the app</a>
-          </Message>
-        </Grid.Column>
+                {formSucces && <Message success>Thanks for doing your bit! Order yourself a drink - happy days...</Message>}        </Grid.Column>
 
       </Grid>  
     )
