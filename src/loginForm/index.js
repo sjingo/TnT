@@ -2,7 +2,6 @@ import React from 'react'
 import {
     Button,
     Form,
-    Grid,
     Header,
     Message,
     Popup,

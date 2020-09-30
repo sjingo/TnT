@@ -1,24 +1,42 @@
 import React, { useState } from 'react'
-import { Button, Card, Header, Icon } from 'semantic-ui-react'
+import { Button, Card, Header, Icon, Image, Modal } from 'semantic-ui-react'
 import BarMenuImage from './../assets/BarMenu.png'
 
 export default function () {
+    const [modalOpen, setModalOpen] = useState(false)
+    const [imageUrl, setImageUrl] = useState('')
+    const handleSetOpen = (url) => {
+        setModalOpen(true)
+        setImageUrl(url)
+    }
     const cards = [
         {
             header: 'Beer, wine, fizz, cocktails',
             description: 'Drinks Menu 1',
             image: BarMenuImage,
-            pdfLink: './../assets/BarMenu_page_1.pdf',
+            imageLink: '/BarMenu_page_1.jpg',
         },
         {
             header: 'Mixers, gins, spirits, rum, tequilas ... ',
             description: 'Drinks Menu 2',
             image: BarMenuImage,
-            pdfLink: './../assets/BarMenu_page_2.pdf',
+            imageLink: '/BarMenu_page_2.jpg',
         },
     ]
     return (
         <>
+            <Modal
+                onClose={() => setModalOpen(false)}
+                onOpen={() => setModalOpen(true)}
+                open={modalOpen}
+                closeIcon
+                basic
+                size="fullscreen"
+            >
+                <Modal.Content image>
+                    <Image size="massive" src={imageUrl} wrapped />
+                </Modal.Content>
+            </Modal>
             <Header as="h2" color="teal">
                 <Header.Content>
                     <Icon name="food" size="small" />
@@ -44,9 +62,14 @@ export default function () {
                                 </Card.Description>
                             </Card.Content>
                             <Card.Content extra>
-                                <Button positive as="a" href={item.pdfLink}>
-                                    <Icon name="file pdf outline" />
-                                    View Menu
+                                <Button
+                                    positive
+                                    onClick={() =>
+                                        handleSetOpen(item.imageLink)
+                                    }
+                                >
+                                    <Icon name="image outline" />
+                                    Menu
                                 </Button>
                             </Card.Content>
                         </Card>
@@ -70,9 +93,12 @@ export default function () {
                         </Card.Description>
                     </Card.Content>
                     <Card.Content extra>
-                        <Button positive>
-                            <Icon name="file pdf outline" />
-                            View Menu
+                        <Button
+                            positive
+                            onClick={() => handleSetOpen('/BhajiMenu.jpg')}
+                        >
+                            <Icon name="image outline" />
+                            Menu
                         </Button>
                     </Card.Content>
                 </Card>
