@@ -1,10 +1,9 @@
-import React from 'react'
-import firebase,{firebaseConfig} from './firebase-config'
+import firebase, { firebaseConfig } from './firebase-config'
 
-const useFirebase =()=>{
+const useFirebase = () => {
     // Initialize Firebase
-    if(!firebase.apps.length){
-        firebase.initializeApp(firebaseConfig);
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig)
     }
     const auth = firebase.auth()
     const db = firebase.firestore()
@@ -13,12 +12,11 @@ const useFirebase =()=>{
     window.db = db
     window.firebase = firebase
 
-    return{
+    return {
         firebase,
         auth,
         db,
     }
-
 }
 
 export default useFirebase
