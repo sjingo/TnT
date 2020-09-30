@@ -28,9 +28,6 @@ export default function () {
             </Header>
             <Card.Group itemsPerRow={1}>
                 <Card>
-                    <Card.Content>
-                        <Card.Header>Rules and regs</Card.Header>
-                    </Card.Content>
                     <img
                         src="RulesAndRegulations.png"
                         alt="The rules and regulations whilst at Hagglers"
