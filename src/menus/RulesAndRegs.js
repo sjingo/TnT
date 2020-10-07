@@ -11,16 +11,15 @@ export default function () {
 
     return (
         <>
-            <Modal
+        <Modal
                 onClose={() => setModalOpen(false)}
                 onOpen={() => setModalOpen(true)}
                 open={modalOpen}
                 closeIcon
-                basic
-                size="fullscreen"
+                
             >
                 <Modal.Content image>
-                    <Image size="massive" src={imageUrl} wrapped />
+                    <Image size="large" src={imageUrl} style={{width: '100%'}}  />
                 </Modal.Content>
             </Modal>
             <Header as="h2" color="purple">
