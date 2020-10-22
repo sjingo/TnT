@@ -9,6 +9,7 @@ import {
     Modal,
 } from 'semantic-ui-react'
 import BarMenuImage from './../assets/BarMenu.png'
+import BhajiShopImage from './../assets/BhajiShopImage.jpg'
 
 export default function () {
     const [modalOpen, setModalOpen] = useState(false)
@@ -81,7 +82,7 @@ export default function () {
                         <Card.Header>The Bhaji Shop</Card.Header>
                     </Card.Content>
                     <img
-                        src="http://www.thebhajishop.co.uk/wp-content/uploads/2018/11/moor-market-21.jpg"
+                        src={BhajiShopImage}
                         alt="The Bhaji Shop menu"
                         style={{ width: '100%' }}
                     />
