@@ -11,15 +11,18 @@ export default function () {
 
     return (
         <>
-        <Modal
+            <Modal
                 onClose={() => setModalOpen(false)}
                 onOpen={() => setModalOpen(true)}
                 open={modalOpen}
                 closeIcon
-                
             >
                 <Modal.Content image>
-                    <Image size="large" src={imageUrl} style={{width: '100%'}}  />
+                    <Image
+                        size="large"
+                        src={imageUrl}
+                        style={{ width: '100%' }}
+                    />
                 </Modal.Content>
             </Modal>
             <Header as="h2" color="purple">
@@ -40,7 +43,7 @@ export default function () {
                     </Card.Content>
                     <Card.Content extra>
                         <Button
-                            positive
+                            color="teal"
                             onClick={() => handleSetOpen('/RulesAndRegs.jpg')}
                         >
                             <Icon name="image outline" />
