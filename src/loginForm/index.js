@@ -1,10 +1,10 @@
 import React from 'react'
 import {
     Button,
+    Checkbox,
     Form,
     Header,
     Message,
-    Popup,
     Segment,
     Transition,
 } from 'semantic-ui-react'
@@ -79,20 +79,12 @@ const LoginForm = ({ db }) => {
     return (
         <>
             <Message success={formSucces}>
-                <Message.Header>Covid track and trace</Message.Header>We'll only
-                use data from this form for Covid track and trace purposes. If
-                you'd like to{' '}
-                <Popup
-                    size="large"
-                    inverted
-                    content="Hey, so the thing is... we're still working on the app. And it's not quite ready yet. We'll let people know, as soon as its fully baked"
-                    trigger={<a href="#">download the app</a>}
-                />{' '}
-                - you can checkin with one click next time and keep up with
-                hagglers' goings on.{' '}
+                <Message.Header>Check in</Message.Header>This form's for track
+                and trace. The data will only be shared with NHS track and
+                trace, and only if required. Opt-in for special offers, events
+                and more good times.
             </Message>
-
-            <Header as="h2" color="teal" textAlign="center">
+            <Header as="h2" color="purple" textAlign="center">
                 Track and trace
             </Header>
 
@@ -136,17 +128,13 @@ const LoginForm = ({ db }) => {
                             iconPosition="left"
                             placeholder="Mobile"
                         />
-                        <Form.Input
-                            name={NUMBER_IN_PARTY}
-                            onChange={handleChange}
-                            min={0}
-                            max={6}
-                            fluid
-                            icon="users"
-                            iconPosition="left"
-                            placeholder="Number in party"
-                            type="number"
-                        />
+                        <Form.Field>
+                            <Checkbox
+                                name={NUMBER_IN_PARTY}
+                                onChange={handleChange}
+                                label="Opt-in for events and special offers"
+                            />
+                        </Form.Field>
 
                         {/* <Form.Checkbox  label='remember me on this device for 90 days' placeholder='Mobile' /> */}
 

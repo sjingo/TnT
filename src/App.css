@@ -1,38 +1,28 @@
-.App {
-  text-align: center;
+#root {
+    background: url('/background.png') 0 0 no-repeat;
+    background-size: cover;
+    z-index: -1;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+img#pidge_lights,
+img#tenYears {
+    position: absolute;
+    top: 0;
+    width: 100%;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+img#pidge_lights {
+    left: 0;
+    top: 400px;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+img#tenYears {
+    left: 0;
+    width: auto;
+    max-width: 200px;
 }
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+@media screen and (max-width: 500px) {
+    img#tenYears {
+        position: fixed;
+        max-width: 100px;
+        width: 50%;
+    }
 }

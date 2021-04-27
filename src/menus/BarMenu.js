@@ -34,7 +34,7 @@ export default function () {
                     />
                 </Modal.Content>
             </Modal>
-            <Header as="h2" color="teal">
+            <Header as="h2" color="purple">
                 <Header.Content>
                     <Icon name="food" size="small" />
                     <Icon name="bar" size="small" />
@@ -53,7 +53,7 @@ export default function () {
                     />
                     <Card.Content>
                         <Card.Description>
-                            Beer, wine, fizz, cocktails, ixers, gins, spirits,
+                            Beer, wine, fizz, cocktails, mixers, gins, spirits,
                             rum, tequilas ...
                         </Card.Description>
                     </Card.Content>
