@@ -11,9 +11,9 @@ import {
 import formReducer, {
     EMAIL,
     NAME,
-    NUMBER_IN_PARTY,
     MOBILE,
     ON_SUCCESS,
+    MARKETING_CONSENT,
 } from './../appReducer'
 const now = new Date()
 const d = now.getDate()
@@ -25,6 +25,7 @@ const INITIAL_FORM_STATE = {
     name: '',
     nameError: true,
     mobile: '',
+    consent: false,
     numberInParty: '',
     today: `${d}-${m}-${y}`,
     touched: {
@@ -47,14 +48,13 @@ const LoginForm = ({ db }) => {
         setFormSuccess(false)
         setFormError(false)
     }
-    const checkForErrors = () =>
-        !state.nameError || !state.emailError || !state.numberInParty === ''
+    const checkForErrors = () => !state.nameError || !state.emailError === ''
     const handleSubmit = () => {
         const isValid = checkForErrors()
         if (isValid) {
             const timeStamp = Date.now()
             setFormError(false)
-            const { name, mobile, email, numberInParty, today } = state
+            const { name, mobile, email, today } = state
             db.collection('TrackAndTrace')
                 .doc('Hagglers')
                 .update({
@@ -62,7 +62,6 @@ const LoginForm = ({ db }) => {
                         name,
                         mobile,
                         email,
-                        numberInParty,
                     },
                 })
                 .then(handlSuccess)
@@ -130,7 +129,7 @@ const LoginForm = ({ db }) => {
                         />
                         <Form.Field>
                             <Checkbox
-                                name={NUMBER_IN_PARTY}
+                                name={MARKETING_CONSENT}
                                 onChange={handleChange}
                                 label="Opt-in for events and special offers"
                             />

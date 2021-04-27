@@ -98,16 +98,16 @@ export default function () {
                                     src: '/Bhaji_Menu_Brunch.png',
                                 },
                                 { text: 'Lunch', src: '/Bhaji_Menu_Lunch.png' },
-                            ].map((img) => (
+                            ].map(({ src, text }) => (
                                 <Grid.Column>
                                     <Button
+                                        key={src}
                                         style={{ width: '90%' }}
-                                        key={img.src}
                                         color="teal"
-                                        onClick={() => handleSetOpen(img.src)}
+                                        onClick={() => handleSetOpen(src)}
                                     >
                                         <Icon name="image outline" />
-                                        {img.text}
+                                        {text}
                                     </Button>
                                 </Grid.Column>
                             ))}
