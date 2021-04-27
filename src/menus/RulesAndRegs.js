@@ -25,11 +25,19 @@ export default function () {
                     />
                 </Modal.Content>
             </Modal>
-            <Header as="h2" color="purple">
+            <Header
+                as="h2"
+                color="black"
+                style={{
+                    background: 'white',
+                    padding: '0.25rem',
+                    borderRadius: ' 2px',
+                }}
+            >
                 <Header.Content>Rules and regulations</Header.Content>
             </Header>
             <Card.Group itemsPerRow={1}>
-                <Card>
+                <Card raised>
                     <img
                         src="RulesAndRegulations.png"
                         alt="The rules and regulations whilst at Hagglers"

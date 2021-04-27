@@ -78,13 +78,13 @@ const LoginForm = ({ db }) => {
     }
     return (
         <>
-            <Message success={formSucces}>
+            <Message success={formSucces} raised size="small">
                 <Message.Header>Check in</Message.Header>This form's for track
-                and trace. The data will only be shared with NHS track and
-                trace, and only if required. Opt-in for special offers, events
-                and more good times.
+                and trace and the data will only be shared with NHS track and
+                trace, if required. Opt-in for special offers, events and more
+                good times.
             </Message>
-            <Header as="h2" color="purple" textAlign="center">
+            <Header as="h2" color="black" textAlign="center">
                 Track and trace
             </Header>
 
@@ -95,7 +95,7 @@ const LoginForm = ({ db }) => {
                     error={formError}
                     success={formSucces}
                 >
-                    <Segment stacked>
+                    <Segment stacked raised>
                         <Form.Input
                             error={
                                 (formError && state.nameError) ||

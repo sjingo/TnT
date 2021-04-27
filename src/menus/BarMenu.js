@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import {
     Button,
+    Grid,
     Card,
     Header,
     Icon,
@@ -9,7 +10,7 @@ import {
     Modal,
 } from 'semantic-ui-react'
 import BarMenuImage from './../assets/BarMenu.png'
-import BhajiShopImage from './../assets/BhajiShopImage.jpg'
+import BhajiShopImage from './../assets/BhajiShopImage_narrow.png'
 
 export default function () {
     const [modalOpen, setModalOpen] = useState(false)
@@ -34,7 +35,7 @@ export default function () {
                     />
                 </Modal.Content>
             </Modal>
-            <Header as="h2" color="purple">
+            <Header as="h2" color="black">
                 <Header.Content>
                     <Icon name="food" size="small" />
                     <Icon name="bar" size="small" />
@@ -42,7 +43,7 @@ export default function () {
                 </Header.Content>
             </Header>
             <Card.Group itemsPerRow={1}>
-                <Card>
+                <Card raised>
                     <Card.Content>
                         <Card.Header>Takk Drinks Menu</Card.Header>
                     </Card.Content>
@@ -60,7 +61,7 @@ export default function () {
                     <Card.Content extra>
                         <Button
                             color="teal"
-                            onClick={() => handleSetOpen('/BarMenu.jpg')}
+                            onClick={() => handleSetOpen('/BarMenu2021.png')}
                         >
                             <Icon name="image outline" />
                             Menu
@@ -69,13 +70,8 @@ export default function () {
                 </Card>
             </Card.Group>
             <Card.Group itemsPerRow={1}>
-                <Card as="a">
-                    <Label
-                        as="a"
-                        color="purple"
-                        ribbon
-                        style={{ left: '-1rem' }}
-                    >
+                <Card raised>
+                    <Label color="purple" ribbon style={{ left: '-1rem' }}>
                         See the chalk boards for today's curry pots
                     </Label>
                     <Card.Content>
@@ -87,6 +83,37 @@ export default function () {
                         style={{ width: '100%' }}
                     />
                     <Card.Content>
+                        <Grid columns={2}>
+                            {[
+                                {
+                                    text: 'Thalis',
+                                    src: '/Bhaji_Menu_Thalis.png',
+                                },
+                                {
+                                    text: 'Coffee & cake',
+                                    src: '/Bhaji_Menu_Coffee_Cakes.png',
+                                },
+                                {
+                                    text: 'Brunch',
+                                    src: '/Bhaji_Menu_Brunch.png',
+                                },
+                                { text: 'Lunch', src: '/Bhaji_Menu_Lunch.png' },
+                            ].map((img) => (
+                                <Grid.Column>
+                                    <Button
+                                        style={{ width: '90%' }}
+                                        key={img.src}
+                                        color="teal"
+                                        onClick={() => handleSetOpen(img.src)}
+                                    >
+                                        <Icon name="image outline" />
+                                        {img.text}
+                                    </Button>
+                                </Grid.Column>
+                            ))}
+                        </Grid>
+                    </Card.Content>
+                    <Card.Content extra>
                         <Card.Description>
                             Serving freshly cooked Indian inspire food.
                         </Card.Description>
