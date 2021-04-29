@@ -18,8 +18,9 @@ import formReducer, {
 } from './../appReducer'
 const LoginForm = ({ db }) => {
     const [state, dispatch] = React.useReducer(formReducer, INITIAL_FORM_STATE)
-    const [formError, setFormError] = React.useState()
-    const [formSucces, setFormSuccess] = React.useState()
+    const [formError, setFormError] = React.useState(false)
+    const [formSucces, setFormSuccess] = React.useState(null)
+    const [disabled, setDisabled] = React.useState(true)
     const handlSuccess = () => {
         setFormSuccess(true)
         setFormError(false)
@@ -67,11 +68,31 @@ const LoginForm = ({ db }) => {
         clearTimeout(timoutRef.current)
         if (formSucces) {
             timoutRef.current = setTimeout(() => {
-                setFormSuccess(false)
                 dispatch({ type: ON_SUCCESS })
+                setFormSuccess(false)
+                setDisabled(true)
             }, 4500)
         }
     }, [formSucces])
+    React.useEffect(() => {
+        /* if state */
+        if (state) {
+            /* no form error */
+            if (!formError) {
+                /* email and name have been focused on */
+                if (state.touched.email || state.touched.name) {
+                    /* no email name errors */
+                    if (!state.emailError && !state.nameError) {
+                        /* email and name have values */
+                        if (state.email !== '' && state.name !== '') {
+                            setDisabled(false)
+                        }
+                    }
+                }
+            }
+        }
+    }, [formError, state])
+
     return (
         <>
             <Message success={formSucces} raised size="small">
@@ -144,16 +165,7 @@ const LoginForm = ({ db }) => {
                             color="teal"
                             fluid
                             size="large"
-                            disabled={
-                                state
-                                    ? formError ||
-                                      state.email === '' ||
-                                      (state.touched.email &&
-                                          state.emailError) ||
-                                      state.name === '' ||
-                                      (state.touched.email && state.emailError)
-                                    : true
-                            }
+                            disabled={disabled}
                         >
                             Save
                         </Button>
