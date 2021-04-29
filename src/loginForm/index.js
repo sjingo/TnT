@@ -30,7 +30,27 @@ const LoginForm = ({ db }) => {
         setFormSuccess(false)
         setFormError(false)
     }
-    const checkForErrors = () => !state.nameError || !state.emailError
+    const checkForErrors = () => {
+        console.log(disabled, formError, state)
+        if (state) {
+            /* no form error */
+            if (!formError) {
+                /* email and name have been focused on */
+                if (state.touched.email || state.touched.name) {
+                    /* no email name errors */
+                    if (!state.emailError && !state.nameError) {
+                        /* email and name have values */
+                        if (state.email !== '' && state.name !== '') {
+                            // setDisabled(false)
+                            return true
+                        }
+                    }
+                }
+            }
+        } else {
+            return false
+        }
+    }
     const handleSubmit = () => {
         const isValid = checkForErrors()
         if (isValid) {
@@ -59,7 +79,6 @@ const LoginForm = ({ db }) => {
         if (data.type === 'checkbox') {
             value = data.checked
         }
-        setFormError(false)
         dispatch({ type: data.name, value })
     }
     const timoutRef = React.useRef()
@@ -75,23 +94,10 @@ const LoginForm = ({ db }) => {
         }
     }, [formSucces])
     React.useEffect(() => {
-        /* if state */
-        if (state) {
-            /* no form error */
-            if (!formError) {
-                /* email and name have been focused on */
-                if (state.touched.email || state.touched.name) {
-                    /* no email name errors */
-                    if (!state.emailError && !state.nameError) {
-                        /* email and name have values */
-                        if (state.email !== '' && state.name !== '') {
-                            setDisabled(false)
-                        }
-                    }
-                }
-            }
+        if (checkForErrors()) {
+            setDisabled(false)
         }
-    }, [formError, state])
+    }, [formError, disabled, state])
 
     return (
         <>
