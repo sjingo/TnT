@@ -4,6 +4,24 @@ export const MOBILE = 'mobile'
 export const NUMBER_IN_PARTY = 'numberInParty'
 export const MARKETING_CONSENT = 'marketingConsent'
 export const ON_SUCCESS = 'onSuccess'
+const now = new Date()
+const d = now.getDate()
+const m = now.getMonth() + 1
+const y = now.getFullYear()
+export const INITIAL_FORM_STATE = {
+    email: '',
+    emailError: false,
+    name: '',
+    nameError: true,
+    mobile: '',
+    consent: false,
+    numberInParty: '',
+    today: `${y}-${m}-${d}`,
+    touched: {
+        name: false,
+        email: false,
+    },
+}
 
 export default function formReducer(state, action) {
     switch (action.type) {
@@ -34,8 +52,7 @@ export default function formReducer(state, action) {
                 },
             }
         case MARKETING_CONSENT:
-            let consent = action.payload
-            console.log(consent)
+            let consent = action.value
             return {
                 ...state,
                 consent,
@@ -53,9 +70,19 @@ export default function formReducer(state, action) {
                 numberInParty,
             }
         case ON_SUCCESS:
-            var newState = action.state
             return {
-                ...newState,
+                email: '',
+                emailError: false,
+                name: '',
+                nameError: true,
+                mobile: '',
+                consent: false,
+                numberInParty: '',
+                today: `${y}-${m}-${d}`,
+                touched: {
+                    name: false,
+                    email: false,
+                },
             }
         default:
             return {

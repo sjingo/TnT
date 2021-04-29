@@ -14,26 +14,8 @@ import formReducer, {
     MOBILE,
     ON_SUCCESS,
     MARKETING_CONSENT,
+    INITIAL_FORM_STATE,
 } from './../appReducer'
-const now = new Date()
-const d = now.getDate()
-const m = now.getMonth() + 1
-const y = now.getFullYear()
-const INITIAL_FORM_STATE = {
-    email: '',
-    emailError: true,
-    name: '',
-    nameError: true,
-    mobile: '',
-    consent: false,
-    numberInParty: '',
-    today: `${d}-${m}-${y}`,
-    touched: {
-        name: false,
-        email: false,
-    },
-}
-
 const LoginForm = ({ db }) => {
     const [state, dispatch] = React.useReducer(formReducer, INITIAL_FORM_STATE)
     const [formError, setFormError] = React.useState()
@@ -41,20 +23,19 @@ const LoginForm = ({ db }) => {
     const handlSuccess = () => {
         setFormSuccess(true)
         setFormError(false)
-        dispatch({ type: ON_SUCCESS, state: INITIAL_FORM_STATE })
         // setTimeout(()=> {window.location.href= `https://www.facebook.com/hagglers.corner/`}, 1500)
     }
     const handleFormError = () => {
         setFormSuccess(false)
         setFormError(false)
     }
-    const checkForErrors = () => !state.nameError || !state.emailError === ''
+    const checkForErrors = () => !state.nameError || !state.emailError
     const handleSubmit = () => {
         const isValid = checkForErrors()
         if (isValid) {
             const timeStamp = Date.now()
             setFormError(false)
-            const { name, mobile, email, today } = state
+            const { name, mobile, email, consent, today } = state
             db.collection('TrackAndTrace')
                 .doc('Hagglers')
                 .update({
@@ -62,6 +43,7 @@ const LoginForm = ({ db }) => {
                         name,
                         mobile,
                         email,
+                        consent,
                     },
                 })
                 .then(handlSuccess)
@@ -72,9 +54,24 @@ const LoginForm = ({ db }) => {
         return false
     }
     const handleChange = (e, data) => {
+        let { value } = data
+        if (data.type === 'checkbox') {
+            value = data.checked
+        }
         setFormError(false)
-        dispatch({ type: data.name, value: data.value })
+        dispatch({ type: data.name, value })
     }
+    const timoutRef = React.useRef()
+
+    React.useEffect(() => {
+        clearTimeout(timoutRef.current)
+        if (formSucces) {
+            timoutRef.current = setTimeout(() => {
+                setFormSuccess(false)
+                dispatch({ type: ON_SUCCESS })
+            }, 4500)
+        }
+    }, [formSucces])
     return (
         <>
             <Message success={formSucces} raised size="small">
@@ -106,6 +103,8 @@ const LoginForm = ({ db }) => {
                             icon="user"
                             iconPosition="left"
                             placeholder="Name"
+                            value={state.name}
+                            required
                         />
                         <Form.Input
                             name={EMAIL}
@@ -118,6 +117,8 @@ const LoginForm = ({ db }) => {
                             icon="mail"
                             iconPosition="left"
                             placeholder="E-mail address"
+                            value={state.email}
+                            required
                         />
                         <Form.Input
                             name={MOBILE}
@@ -126,12 +127,14 @@ const LoginForm = ({ db }) => {
                             icon="mobile"
                             iconPosition="left"
                             placeholder="Mobile"
+                            value={state.mobile}
                         />
                         <Form.Field>
                             <Checkbox
                                 name={MARKETING_CONSENT}
                                 onChange={handleChange}
                                 label="Opt-in for events and special offers"
+                                checked={state.consent}
                             />
                         </Form.Field>
 
@@ -141,7 +144,16 @@ const LoginForm = ({ db }) => {
                             color="teal"
                             fluid
                             size="large"
-                            disabled={formError}
+                            disabled={
+                                state
+                                    ? formError ||
+                                      state.email === '' ||
+                                      (state.touched.email &&
+                                          state.emailError) ||
+                                      state.name === '' ||
+                                      (state.touched.email && state.emailError)
+                                    : true
+                            }
                         >
                             Save
                         </Button>
@@ -155,7 +167,7 @@ const LoginForm = ({ db }) => {
                 </Message>
             )}
             {formSucces && (
-                <Message success>
+                <Message success size="massive">
                     Thanks for doing your bit! Order yourself a drink - happy
                     days...
                 </Message>

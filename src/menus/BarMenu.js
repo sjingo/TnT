@@ -35,7 +35,10 @@ export default function () {
                     />
                 </Modal.Content>
             </Modal>
-            <Header as="h2" color="black">
+            <Header
+                as="h2"
+                style={{ color: 'white', textShadow: '0 1px rgb(0 0 0 / 10%)' }}
+            >
                 <Header.Content>
                     <Icon name="food" size="small" />
                     <Icon name="bar" size="small" />
@@ -45,7 +48,7 @@ export default function () {
             <Card.Group itemsPerRow={1}>
                 <Card raised>
                     <Card.Content>
-                        <Card.Header>Takk Drinks Menu</Card.Header>
+                        <Card.Header>Bar Takk drinks menu</Card.Header>
                     </Card.Content>
                     <img
                         src={BarMenuImage}
