@@ -31,7 +31,6 @@ const LoginForm = ({ db }) => {
         setFormError(false)
     }
     const checkForErrors = () => {
-        console.log(disabled, formError, state)
         if (state) {
             /* no form error */
             if (!formError) {
