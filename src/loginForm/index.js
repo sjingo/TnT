@@ -32,24 +32,20 @@ const LoginForm = ({ db }) => {
         setFormError(false)
     }
     const checkForErrors = () => {
-        if (state) {
-            /* no form error */
-            if (!formError) {
-                /* email and name have been focused on */
-                if (state.touched.email || state.touched.name) {
-                    /* no email name errors */
-                    if (!state.emailError && !state.nameError) {
-                        /* email and name have values */
-                        if (state.email !== '' && state.name !== '') {
-                            // setDisabled(false)
-                            return true
-                        }
-                    }
-                }
-            }
-        } else {
-            return false
+        setFormError(false)
+        let nameValid = false
+        let emailValid = false
+        /* check name */
+        if (state.name !== '') {
+            nameValid = true
         }
+        if (state.email !== '' && !state.emailError) {
+            emailValid = true
+        }
+        const isValid = nameValid && emailValid
+        setFormError(!isValid)
+        return isValid
+        /* check email */
     }
     const handleSubmit = () => {
         const isValid = checkForErrors()
@@ -71,8 +67,6 @@ const LoginForm = ({ db }) => {
                 .catch(handleFormError)
             return true
         }
-        setFormError(true)
-        return false
     }
     const handleChange = (e, data) => {
         let { value } = data
@@ -170,7 +164,7 @@ const LoginForm = ({ db }) => {
 
             {formError && (
                 <Message error>
-                    Looks like just need some info - see errors
+                    Looks like we just need some info - see errors
                 </Message>
             )}
             {formSucces && (
