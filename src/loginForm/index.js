@@ -20,11 +20,12 @@ const LoginForm = ({ db }) => {
     const [state, dispatch] = React.useReducer(formReducer, INITIAL_FORM_STATE)
     const [formError, setFormError] = React.useState(false)
     const [formSucces, setFormSuccess] = React.useState(null)
-    const [disabled, setDisabled] = React.useState(true)
     const handlSuccess = () => {
         setFormSuccess(true)
         setFormError(false)
-        // setTimeout(()=> {window.location.href= `https://www.facebook.com/hagglers.corner/`}, 1500)
+        setTimeout(() => {
+            window.location.href = `/`
+        }, 1000)
     }
     const handleFormError = () => {
         setFormSuccess(false)
@@ -88,15 +89,9 @@ const LoginForm = ({ db }) => {
             timoutRef.current = setTimeout(() => {
                 dispatch({ type: ON_SUCCESS })
                 setFormSuccess(false)
-                setDisabled(true)
             }, 4500)
         }
     }, [formSucces])
-    React.useEffect(() => {
-        if (checkForErrors()) {
-            setDisabled(false)
-        }
-    }, [formError, disabled, state])
 
     return (
         <>
@@ -166,12 +161,7 @@ const LoginForm = ({ db }) => {
 
                         {/* <Form.Checkbox  label='remember me on this device for 90 days' placeholder='Mobile' /> */}
 
-                        <Button
-                            color="teal"
-                            fluid
-                            size="large"
-                            disabled={disabled}
-                        >
+                        <Button color="teal" fluid size="large">
                             Save
                         </Button>
                     </Segment>
