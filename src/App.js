@@ -1,12 +1,10 @@
 import React from 'react'
-import { Container, Divider, Grid, Image } from 'semantic-ui-react'
-import LoginForm from './loginForm'
-import Menus from './menus'
+import { Container, Grid, Image } from 'semantic-ui-react'
 import useFirebase from './useFirebase'
 import './App.css'
 import pidge_lights from './assets/pidge_lights.png'
 import tenYears from './assets/10_years_logo.png'
-
+import Main from './views/Main'
 const App = () => {
     const { db } = useFirebase()
     return (
@@ -20,10 +18,7 @@ const App = () => {
                 stackable
             >
                 <Grid.Column style={{ maxWidth: 450 }} width={16}>
-                    <LoginForm db={db} />
-                    <Divider />
-                    <Menus />
-                    <Divider />
+                    <Main />
                 </Grid.Column>
             </Grid>
         </Container>
