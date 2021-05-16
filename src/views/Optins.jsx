@@ -39,28 +39,8 @@ const Optins = () => {
             if (!user) {
                 setUser(false)
             }
-            // if (user) {
-            //     setUser(user)
-            //     setLoading(false)
-            //     console.log('logged in')
-            //     // User is signed in, see docs for a list of available properties
-            //     // https://firebase.google.com/docs/reference/js/firebase.User
-            //     var uid = user.uid
-            //     // db.collection('TrackAndTrace')
-            //     //     .doc('Hagglers')
-            //     //     .onSnapshot((doc) => {
-            //     //         console.log('Current data: ', doc.data())
-            //     //     })
-
-            //     // get data
-            //     // ...
-            // } else {
-            //     setUser(null)
-            //     // User is signed out
-            //     // ...
-            // }
         })
-    }, [user])
+    }, [auth, user])
     return (
         <>
             {!user && (
