@@ -3,6 +3,7 @@ import UserLogin from './../user-login'
 import OptinsData from './../optins-data'
 import Logout from './../Logout'
 import useFirebase from './../useFirebase'
+import { Grid } from 'semantic-ui-react'
 
 const Optins = () => {
     const [user, setUser] = useState(null)
@@ -42,7 +43,7 @@ const Optins = () => {
         })
     }, [auth, user])
     return (
-        <>
+        <Grid.Column style={{ maxWidth: !user ? 450 : 'inherit' }} width={16}>
             {!user && (
                 <UserLogin
                     auth={auth}
@@ -52,7 +53,7 @@ const Optins = () => {
             )}
             {user && <Logout />}
             {user && <OptinsData db={db} />}
-        </>
+        </Grid.Column>
     )
 }
 export default Optins

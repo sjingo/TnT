@@ -9,7 +9,13 @@ import UserLogin from './views/Optins'
 const App = () => {
     return (
         <Container>
-            <Image id="tenYears" src={tenYears} />
+            <Image
+                id="tenYears"
+                src={tenYears}
+                alt="Hagglers Corner is ten years old"
+                onClick={() => (window.location.href = '/')}
+                style={{ cursor: 'pointer' }}
+            />
             <Image id="pidge_lights" src={pidge_lights} />
             <Grid
                 textAlign="center"
@@ -17,18 +23,16 @@ const App = () => {
                 verticalAlign="middle"
                 stackable
             >
-                <Grid.Column style={{ maxWidth: 450 }} width={16}>
-                    <Router>
-                        <Switch>
-                            <Route match exact path="/optins">
-                                <UserLogin />
-                            </Route>
-                            <Route match exact path="/">
-                                <Main />
-                            </Route>
-                        </Switch>
-                    </Router>
-                </Grid.Column>
+                <Router>
+                    <Switch>
+                        <Route match exact path="/optins">
+                            <UserLogin />
+                        </Route>
+                        <Route match exact path="/">
+                            <Main />
+                        </Route>
+                    </Switch>
+                </Router>
             </Grid>
         </Container>
     )
