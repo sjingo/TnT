@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {
     Button,
-    Checkbox,
     Segment,
     Feed,
     Grid,
@@ -13,15 +12,23 @@ const OptinsData = ({ db }) => {
     const [data, setData] = useState([])
     const [grandTotal, setGrandTotal] = useState(0)
     const [totalOptedIn, setTotalOptedIn] = useState(0)
+    const [trackTrace, setTrackTrace] = useState([])
+    const handleClickView = (e) => {
+        const { date } = e.currentTarget.dataset
+        const [result] = data.filter((item) => {
+            return item.date === date
+        })
+        const trackTrace = result && result.flatCheckins
+        console.log(trackTrace)
+        setTrackTrace(trackTrace)
+    }
     useEffect(() => {
         if (db) {
-            console.log(db)
             var docRef = db.collection('TrackAndTrace').doc('Hagglers')
             docRef
                 .get()
                 .then((doc) => {
                     if (doc.exists) {
-                        console.log('Document data:', doc.data())
                         const raw = Object.entries(doc.data())
                         const dates = raw
                             .reduce((accumulator, [key, checkins]) => {
@@ -62,7 +69,6 @@ const OptinsData = ({ db }) => {
                                     return -1
                                 }
                             })
-                        console.log(dates)
                         const totals = dates.reduce(
                             (accum, item) => {
                                 const { total, flatCheckins } = item
@@ -94,17 +100,17 @@ const OptinsData = ({ db }) => {
         <>
             <Grid columns={2} as={Segment}>
                 <Grid.Column>
-                    <Statistic size="small">
+                    <Statistic size="tiny">
                         <Statistic.Value>{grandTotal}</Statistic.Value>
-                        <Statistic.Value>Checkins</Statistic.Value>
+                        <Statistic.Label>Checkins</Statistic.Label>
                     </Statistic>
                 </Grid.Column>
                 <Grid.Column>
-                    <Statistic size="small">
+                    <Statistic size="tiny">
                         <Statistic.Value>{totalOptedIn}</Statistic.Value>
-                        <Statistic.Value>
+                        <Statistic.Label>
                             Opted in for marketing
-                        </Statistic.Value>
+                        </Statistic.Label>
                     </Statistic>
                 </Grid.Column>
             </Grid>
@@ -119,20 +125,17 @@ const OptinsData = ({ db }) => {
                 </Table.Header>
                 <Table.Body>
                     {data.map((item, index) => {
-                        const { names, consented } = item.flatCheckins.reduce(
+                        const consented = item.flatCheckins.reduce(
                             (accumulator, [id, person]) => {
-                                if (person && person.name) {
-                                    accumulator.names.push(person.name)
-                                }
                                 if (person && person.consent) {
-                                    accumulator.consented.push({
+                                    accumulator.push({
                                         ...person,
                                         id,
                                     })
                                 }
                                 return accumulator
                             },
-                            { names: [], consented: [] }
+                            []
                         )
                         return (
                             <Table.Row key={item.date}>
@@ -141,25 +144,12 @@ const OptinsData = ({ db }) => {
                                 </Table.Cell>
                                 <Table.Cell>{item.total}</Table.Cell>
                                 <Table.Cell>
-                                    {names.map((name, index) => {
-                                        if (index === 4) {
-                                            return (
-                                                <small key={`${name}${index}`}>
-                                                    {' '}
-                                                    ...
-                                                </small>
-                                            )
-                                        } else if (index < 4) {
-                                            return (
-                                                <small key={`${name}${index}`}>
-                                                    {name}
-                                                    {',\n'}
-                                                </small>
-                                            )
-                                        } else {
-                                            return null
-                                        }
-                                    })}
+                                    <Button
+                                        primary
+                                        onClick={handleClickView}
+                                        content={`View all on ${item.date}`}
+                                        data-date={item.date}
+                                    />
                                 </Table.Cell>
                                 <Table.Cell>
                                     <Feed>
