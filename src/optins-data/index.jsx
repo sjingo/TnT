@@ -6,22 +6,16 @@ import {
     Grid,
     Statistic,
     Table,
+    Icon,
     TableHeaderCell,
 } from 'semantic-ui-react'
+import { CSVLink } from 'react-csv'
+
 const OptinsData = ({ db }) => {
     const [data, setData] = useState([])
     const [grandTotal, setGrandTotal] = useState(0)
     const [totalOptedIn, setTotalOptedIn] = useState(0)
-    const [trackTrace, setTrackTrace] = useState([])
-    const handleClickView = (e) => {
-        const { date } = e.currentTarget.dataset
-        const [result] = data.filter((item) => {
-            return item.date === date
-        })
-        const trackTrace = result && result.flatCheckins
-        console.log(trackTrace)
-        setTrackTrace(trackTrace)
-    }
+    const [optedInData, setOptedInData] = useState(null)
     useEffect(() => {
         if (db) {
             var docRef = db.collection('TrackAndTrace').doc('Hagglers')
@@ -51,7 +45,18 @@ const OptinsData = ({ db }) => {
                                 } else {
                                     date = [d[0], d[1], d[2]].join('-')
                                 }
-                                const flatCheckins = Object.entries(checkins)
+                                const flatCheckins = Object.entries(
+                                    checkins
+                                ).map((item) => {
+                                    return {
+                                        ...item[1],
+                                        id: item[0],
+                                        ['Checked in']: date
+                                            .split('-')
+                                            .reverse()
+                                            .join('-'),
+                                    }
+                                })
                                 const data = {
                                     date,
                                     total: flatCheckins.length,
@@ -73,16 +78,21 @@ const OptinsData = ({ db }) => {
                             (accum, item) => {
                                 const { total, flatCheckins } = item
                                 const optedIn = flatCheckins.filter(
-                                    ([id, item]) => item.consent
+                                    (item) => item.consent
                                 )
                                 accum.grandTotal += total
                                 accum.optedIn += optedIn.length
+                                accum.optedInData = [
+                                    ...accum.optedInData,
+                                    ...[optedIn][0],
+                                ]
                                 return accum
                             },
-                            { grandTotal: 0, optedIn: 0 }
+                            { grandTotal: 0, optedIn: 0, optedInData: [] }
                         )
                         setGrandTotal(totals.grandTotal)
                         setTotalOptedIn(totals.optedIn)
+                        setOptedInData(totals.optedInData)
                         setData(dates)
                     } else {
                         // doc.data() will be undefined in this case
@@ -95,10 +105,10 @@ const OptinsData = ({ db }) => {
         }
     }, [db])
 
-    if (!data) return null
+    if (!data || !optedInData) return null
     return (
         <>
-            <Grid columns={2} as={Segment}>
+            <Grid columns={3} as={Segment}>
                 <Grid.Column>
                     <Statistic size="tiny">
                         <Statistic.Value>{grandTotal}</Statistic.Value>
@@ -113,29 +123,32 @@ const OptinsData = ({ db }) => {
                         </Statistic.Label>
                     </Statistic>
                 </Grid.Column>
+                <Grid.Column>
+                    <Button
+                        positive
+                        size="large"
+                        disabled={optedInData.length === 0}
+                    >
+                        <Icon name="table" />
+                        <CSVLink data={optedInData} style={{ color: 'white' }}>
+                            Download all opted in
+                        </CSVLink>
+                    </Button>
+                </Grid.Column>
             </Grid>
             <Table stackable striped>
                 <Table.Header>
                     <Table.Row>
                         <TableHeaderCell>Date</TableHeaderCell>
                         <TableHeaderCell>Total</TableHeaderCell>
-                        <TableHeaderCell>Checked in</TableHeaderCell>
-                        <TableHeaderCell>Send me stuff</TableHeaderCell>
+                        <TableHeaderCell>Track and Trace</TableHeaderCell>
+                        <TableHeaderCell>Send stuff</TableHeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
                     {data.map((item, index) => {
-                        const consented = item.flatCheckins.reduce(
-                            (accumulator, [id, person]) => {
-                                if (person && person.consent) {
-                                    accumulator.push({
-                                        ...person,
-                                        id,
-                                    })
-                                }
-                                return accumulator
-                            },
-                            []
+                        const consented = item.flatCheckins.filter(
+                            (person) => person.consent
                         )
                         return (
                             <Table.Row key={item.date}>
@@ -144,12 +157,15 @@ const OptinsData = ({ db }) => {
                                 </Table.Cell>
                                 <Table.Cell>{item.total}</Table.Cell>
                                 <Table.Cell>
-                                    <Button
-                                        primary
-                                        onClick={handleClickView}
-                                        content={`View all on ${item.date}`}
-                                        data-date={item.date}
-                                    />
+                                    <Button secondary data-date={item.date}>
+                                        <Icon name="group" />
+                                        <CSVLink
+                                            style={{ color: 'white' }}
+                                            data={data[index].flatCheckins}
+                                        >
+                                            Download Track & Trace
+                                        </CSVLink>
+                                    </Button>
                                 </Table.Cell>
                                 <Table.Cell>
                                     <Feed>
