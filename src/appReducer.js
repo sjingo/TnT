@@ -27,9 +27,7 @@ export default function formReducer(state, action) {
     switch (action.type) {
         case EMAIL:
             let email = action.value
-            let emailError = !/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/.test(
-                email
-            )
+            let emailError = !/@/.test(email)
             return {
                 ...state,
                 email,

@@ -28,7 +28,7 @@ const App = () => {
                         <Route match exact path="/optins">
                             <UserLogin />
                         </Route>
-                        <Route match exact path="/">
+                        <Route match path="/">
                             <Main />
                         </Route>
                     </Switch>

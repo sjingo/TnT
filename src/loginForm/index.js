@@ -25,7 +25,7 @@ const LoginForm = ({ db }) => {
         setFormError(false)
         setTimeout(() => {
             window.location.href = `/`
-        }, 1000)
+        }, 5000)
     }
     const handleFormError = () => {
         setFormSuccess(false)
@@ -33,16 +33,12 @@ const LoginForm = ({ db }) => {
     }
     const checkForErrors = () => {
         setFormError(false)
-        let nameValid = false
-        let emailValid = false
-        /* check name */
-        if (state.name !== '') {
-            nameValid = true
+        let emailValid = true
+
+        if (state.email === '' || state.emailError) {
+            emailValid = false
         }
-        if (state.email !== '' && !state.emailError) {
-            emailValid = true
-        }
-        const isValid = nameValid && emailValid
+        const isValid = emailValid
         setFormError(!isValid)
         return isValid
         /* check email */
@@ -108,10 +104,6 @@ const LoginForm = ({ db }) => {
                 >
                     <Segment stacked raised>
                         <Form.Input
-                            error={
-                                (formError && state.nameError) ||
-                                (state.nameError && state.touched.name)
-                            }
                             name={NAME}
                             onChange={handleChange}
                             fluid
@@ -119,7 +111,6 @@ const LoginForm = ({ db }) => {
                             iconPosition="left"
                             placeholder="Name"
                             value={state.name}
-                            required
                         />
                         <Form.Input
                             name={EMAIL}
@@ -133,7 +124,6 @@ const LoginForm = ({ db }) => {
                             iconPosition="left"
                             placeholder="E-mail address"
                             value={state.email}
-                            required
                         />
                         <Form.Input
                             name={MOBILE}
@@ -164,7 +154,7 @@ const LoginForm = ({ db }) => {
 
             {formError && (
                 <Message error>
-                    Looks like we just need some info - see errors
+                    Looks like the email address isn't valid.
                 </Message>
             )}
             {formSucces && (
